@@ -1,0 +1,533 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		887CBA755936B2A5AFC1BFA4 /* libPods-THDbHelperDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F85167F449E1088D2D4E2C2A /* libPods-THDbHelperDemo.a */; };
+		F56F9D101E024B3A00174783 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F56F9D0F1E024B3A00174783 /* main.m */; };
+		F56F9D131E024B3A00174783 /* THAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F56F9D121E024B3A00174783 /* THAppDelegate.m */; };
+		F56F9D161E024B3A00174783 /* THViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F56F9D151E024B3A00174783 /* THViewController.m */; };
+		F56F9D181E024B3A00174783 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F56F9D171E024B3A00174783 /* Assets.xcassets */; };
+		F56F9D1B1E024B3A00174783 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F56F9D191E024B3A00174783 /* LaunchScreen.storyboard */; };
+		F56F9D281E024BB600174783 /* THBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F56F9D251E024BB600174783 /* THBaseModel.m */; };
+		F56F9D291E024BB600174783 /* THDbManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F56F9D271E024BB600174783 /* THDbManager.m */; };
+		F56F9D411E028E6E00174783 /* THTestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F56F9D401E028E6E00174783 /* THTestModel.m */; };
+		F56F9D431E02918700174783 /* THTestModelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F56F9D421E02918700174783 /* THTestModelTests.m */; };
+		F56F9D471E02A83B00174783 /* THBaseModel+Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = F56F9D461E02A83B00174783 /* THBaseModel+Tests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F56F9D351E0276BE00174783 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F56F9D031E024B3A00174783 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F56F9D0A1E024B3A00174783;
+			remoteInfo = THDbHelperDemo;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		9E4AD9AB61D9209FEE6FF149 /* Pods-THDbHelperDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-THDbHelperDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-THDbHelperDemo/Pods-THDbHelperDemo.release.xcconfig"; sourceTree = "<group>"; };
+		D687F0DF09B5DE634FD86DF9 /* Pods-THDbHelperDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-THDbHelperDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-THDbHelperDemo/Pods-THDbHelperDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		F56F9D0B1E024B3A00174783 /* THDbHelperDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = THDbHelperDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F56F9D0F1E024B3A00174783 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F56F9D111E024B3A00174783 /* THAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THAppDelegate.h; sourceTree = "<group>"; };
+		F56F9D121E024B3A00174783 /* THAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THAppDelegate.m; sourceTree = "<group>"; };
+		F56F9D141E024B3A00174783 /* THViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THViewController.h; sourceTree = "<group>"; };
+		F56F9D151E024B3A00174783 /* THViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = THViewController.m; sourceTree = "<group>"; };
+		F56F9D171E024B3A00174783 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F56F9D1A1E024B3A00174783 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F56F9D1C1E024B3A00174783 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F56F9D241E024BB600174783 /* THBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THBaseModel.h; sourceTree = "<group>"; };
+		F56F9D251E024BB600174783 /* THBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THBaseModel.m; sourceTree = "<group>"; };
+		F56F9D261E024BB600174783 /* THDbManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THDbManager.h; sourceTree = "<group>"; };
+		F56F9D271E024BB600174783 /* THDbManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THDbManager.m; sourceTree = "<group>"; };
+		F56F9D301E0276BE00174783 /* THDbHelperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = THDbHelperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F56F9D341E0276BE00174783 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F56F9D3E1E028C2F00174783 /* THDbHelperConsts.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THDbHelperConsts.h; sourceTree = "<group>"; };
+		F56F9D3F1E028E6E00174783 /* THTestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = THTestModel.h; path = ../THDbHelperTests/THTestModel.h; sourceTree = "<group>"; };
+		F56F9D401E028E6E00174783 /* THTestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = THTestModel.m; path = ../THDbHelperTests/THTestModel.m; sourceTree = "<group>"; };
+		F56F9D421E02918700174783 /* THTestModelTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THTestModelTests.m; sourceTree = "<group>"; };
+		F56F9D451E02A83B00174783 /* THBaseModel+Tests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "THBaseModel+Tests.h"; sourceTree = "<group>"; };
+		F56F9D461E02A83B00174783 /* THBaseModel+Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "THBaseModel+Tests.m"; sourceTree = "<group>"; };
+		F85167F449E1088D2D4E2C2A /* libPods-THDbHelperDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-THDbHelperDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F56F9D081E024B3A00174783 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				887CBA755936B2A5AFC1BFA4 /* libPods-THDbHelperDemo.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F56F9D2D1E0276BE00174783 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E45D0BF4D82D244B13083AED /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F85167F449E1088D2D4E2C2A /* libPods-THDbHelperDemo.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F56F9D021E024B3A00174783 = {
+			isa = PBXGroup;
+			children = (
+				F56F9D0D1E024B3A00174783 /* THDbHelperDemo */,
+				F56F9D311E0276BE00174783 /* THDbHelperTests */,
+				F56F9D0C1E024B3A00174783 /* Products */,
+				FF951E7D14368FCF115443B0 /* Pods */,
+				E45D0BF4D82D244B13083AED /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		F56F9D0C1E024B3A00174783 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F56F9D0B1E024B3A00174783 /* THDbHelperDemo.app */,
+				F56F9D301E0276BE00174783 /* THDbHelperTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F56F9D0D1E024B3A00174783 /* THDbHelperDemo */ = {
+			isa = PBXGroup;
+			children = (
+				F56F9D231E024B8B00174783 /* THDbHelper */,
+				F56F9D111E024B3A00174783 /* THAppDelegate.h */,
+				F56F9D121E024B3A00174783 /* THAppDelegate.m */,
+				F56F9D141E024B3A00174783 /* THViewController.h */,
+				F56F9D151E024B3A00174783 /* THViewController.m */,
+				F56F9D3F1E028E6E00174783 /* THTestModel.h */,
+				F56F9D401E028E6E00174783 /* THTestModel.m */,
+				F56F9D0E1E024B3A00174783 /* Supporting Files */,
+			);
+			path = THDbHelperDemo;
+			sourceTree = "<group>";
+		};
+		F56F9D0E1E024B3A00174783 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F56F9D1C1E024B3A00174783 /* Info.plist */,
+				F56F9D0F1E024B3A00174783 /* main.m */,
+				F56F9D171E024B3A00174783 /* Assets.xcassets */,
+				F56F9D191E024B3A00174783 /* LaunchScreen.storyboard */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F56F9D231E024B8B00174783 /* THDbHelper */ = {
+			isa = PBXGroup;
+			children = (
+				F56F9D241E024BB600174783 /* THBaseModel.h */,
+				F56F9D251E024BB600174783 /* THBaseModel.m */,
+				F56F9D261E024BB600174783 /* THDbManager.h */,
+				F56F9D271E024BB600174783 /* THDbManager.m */,
+				F56F9D3E1E028C2F00174783 /* THDbHelperConsts.h */,
+			);
+			path = THDbHelper;
+			sourceTree = "<group>";
+		};
+		F56F9D311E0276BE00174783 /* THDbHelperTests */ = {
+			isa = PBXGroup;
+			children = (
+				F56F9D451E02A83B00174783 /* THBaseModel+Tests.h */,
+				F56F9D461E02A83B00174783 /* THBaseModel+Tests.m */,
+				F56F9D421E02918700174783 /* THTestModelTests.m */,
+				F56F9D341E0276BE00174783 /* Info.plist */,
+			);
+			path = THDbHelperTests;
+			sourceTree = "<group>";
+		};
+		FF951E7D14368FCF115443B0 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D687F0DF09B5DE634FD86DF9 /* Pods-THDbHelperDemo.debug.xcconfig */,
+				9E4AD9AB61D9209FEE6FF149 /* Pods-THDbHelperDemo.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F56F9D0A1E024B3A00174783 /* THDbHelperDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F56F9D1F1E024B3A00174783 /* Build configuration list for PBXNativeTarget "THDbHelperDemo" */;
+			buildPhases = (
+				531D878EBEA1D158BEB85281 /* [CP] Check Pods Manifest.lock */,
+				F56F9D071E024B3A00174783 /* Sources */,
+				F56F9D081E024B3A00174783 /* Frameworks */,
+				F56F9D091E024B3A00174783 /* Resources */,
+				DE3FCF081226844CD9CBCBD9 /* [CP] Embed Pods Frameworks */,
+				D4D221A30F75101E2B2ED56C /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = THDbHelperDemo;
+			productName = THDbHelperDemo;
+			productReference = F56F9D0B1E024B3A00174783 /* THDbHelperDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F56F9D2F1E0276BE00174783 /* THDbHelperTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F56F9D371E0276BE00174783 /* Build configuration list for PBXNativeTarget "THDbHelperTests" */;
+			buildPhases = (
+				F56F9D2C1E0276BE00174783 /* Sources */,
+				F56F9D2D1E0276BE00174783 /* Frameworks */,
+				F56F9D2E1E0276BE00174783 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F56F9D361E0276BE00174783 /* PBXTargetDependency */,
+			);
+			name = THDbHelperTests;
+			productName = THDbHelperTests;
+			productReference = F56F9D301E0276BE00174783 /* THDbHelperTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F56F9D031E024B3A00174783 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0810;
+				ORGANIZATIONNAME = THU;
+				TargetAttributes = {
+					F56F9D0A1E024B3A00174783 = {
+						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = JPGD28C7PA;
+						ProvisioningStyle = Automatic;
+					};
+					F56F9D2F1E0276BE00174783 = {
+						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = JPGD28C7PA;
+						ProvisioningStyle = Automatic;
+						TestTargetID = F56F9D0A1E024B3A00174783;
+					};
+				};
+			};
+			buildConfigurationList = F56F9D061E024B3A00174783 /* Build configuration list for PBXProject "THDbHelperDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F56F9D021E024B3A00174783;
+			productRefGroup = F56F9D0C1E024B3A00174783 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F56F9D0A1E024B3A00174783 /* THDbHelperDemo */,
+				F56F9D2F1E0276BE00174783 /* THDbHelperTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F56F9D091E024B3A00174783 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F56F9D181E024B3A00174783 /* Assets.xcassets in Resources */,
+				F56F9D1B1E024B3A00174783 /* LaunchScreen.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F56F9D2E1E0276BE00174783 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		531D878EBEA1D158BEB85281 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D4D221A30F75101E2B2ED56C /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-THDbHelperDemo/Pods-THDbHelperDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DE3FCF081226844CD9CBCBD9 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-THDbHelperDemo/Pods-THDbHelperDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F56F9D071E024B3A00174783 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F56F9D281E024BB600174783 /* THBaseModel.m in Sources */,
+				F56F9D161E024B3A00174783 /* THViewController.m in Sources */,
+				F56F9D131E024B3A00174783 /* THAppDelegate.m in Sources */,
+				F56F9D291E024BB600174783 /* THDbManager.m in Sources */,
+				F56F9D101E024B3A00174783 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F56F9D2C1E0276BE00174783 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F56F9D471E02A83B00174783 /* THBaseModel+Tests.m in Sources */,
+				F56F9D431E02918700174783 /* THTestModelTests.m in Sources */,
+				F56F9D411E028E6E00174783 /* THTestModel.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F56F9D361E0276BE00174783 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F56F9D0A1E024B3A00174783 /* THDbHelperDemo */;
+			targetProxy = F56F9D351E0276BE00174783 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		F56F9D191E024B3A00174783 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F56F9D1A1E024B3A00174783 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F56F9D1D1E024B3A00174783 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		F56F9D1E1E024B3A00174783 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F56F9D201E024B3A00174783 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D687F0DF09B5DE634FD86DF9 /* Pods-THDbHelperDemo.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = JPGD28C7PA;
+				INFOPLIST_FILE = THDbHelperDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tsinghua.THDbHelperDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		F56F9D211E024B3A00174783 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9E4AD9AB61D9209FEE6FF149 /* Pods-THDbHelperDemo.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = JPGD28C7PA;
+				INFOPLIST_FILE = THDbHelperDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tsinghua.THDbHelperDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		F56F9D381E0276BE00174783 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = JPGD28C7PA;
+				INFOPLIST_FILE = THDbHelperTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tsinghua.THDbHelperTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/THDbHelperDemo.app/THDbHelperDemo";
+			};
+			name = Debug;
+		};
+		F56F9D391E0276BE00174783 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = JPGD28C7PA;
+				INFOPLIST_FILE = THDbHelperTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tsinghua.THDbHelperTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/THDbHelperDemo.app/THDbHelperDemo";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F56F9D061E024B3A00174783 /* Build configuration list for PBXProject "THDbHelperDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F56F9D1D1E024B3A00174783 /* Debug */,
+				F56F9D1E1E024B3A00174783 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F56F9D1F1E024B3A00174783 /* Build configuration list for PBXNativeTarget "THDbHelperDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F56F9D201E024B3A00174783 /* Debug */,
+				F56F9D211E024B3A00174783 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F56F9D371E0276BE00174783 /* Build configuration list for PBXNativeTarget "THDbHelperTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F56F9D381E0276BE00174783 /* Debug */,
+				F56F9D391E0276BE00174783 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F56F9D031E024B3A00174783 /* Project object */;
+}
