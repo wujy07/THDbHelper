@@ -74,10 +74,6 @@ const char *kAsynQueueUniqId = "kAsynQueueUniqId";
 
 #pragma mark - insert -
 
-+ (BOOL)insert:(NSString *)insert withArgs:(NSArray *)args {
-    return [self execute:insert withArgs:args];
-}
-
 + (void)insertAsync:(NSString *)insert withArgs:(NSArray *)args callback:(THInsertCallBack)callback {
     THDbManager *sharedManager = [self sharedManager];
     __block NSError *err;
@@ -95,10 +91,6 @@ const char *kAsynQueueUniqId = "kAsynQueueUniqId";
             callback(rowid, err);
         }
     });
-}
-
-+ (BOOL)insertBatch:(NSString *)insert withArgsArray:(NSArray *)argsArray {
-    return [self executeBatch:insert withArgsArray:argsArray];
 }
 
 + (void)insertBatchAsync:(NSString *)insert withArgsArray:(NSArray *)argsArray callback:(THInsertBatchCallBack)callback {
@@ -124,53 +116,6 @@ const char *kAsynQueueUniqId = "kAsynQueueUniqId";
         }];
         if (callback) {
             callback(ids, err);
-        }
-    });
-}
-
-#pragma mark - update -
-
-+ (BOOL)update:(NSString *)update withArgs:(NSArray *)args {
-    return [self execute:update withArgs:args];
-}
-
-+ (void)updateAsync:(NSString *)update withArgs:(NSArray *)args callback:(THDbCallBack)callback {
-    THDbManager *sharedManager = [self sharedManager];
-    __block NSError *err;
-    dispatch_async(sharedManager.thAsynQueue, ^{
-        [sharedManager.fmdbQueue inDatabase:^(FMDatabase *db) {
-            BOOL success = [db executeUpdate:update withArgumentsInArray:args];
-            if (!success) {
-                err = db.lastError;
-            }
-        }];
-        if (callback) {
-            callback(err);
-        }
-    });
-}
-
-+ (BOOL)updateBatch:(NSString *)update withArgsArray:(NSArray *)argsArray {
-    return [self executeBatch:update withArgsArray:argsArray];
-}
-
-+ (void)updateBatchAsync:(NSString *)update withArgsArray:(NSArray *)argsArray callback:(THDbCallBack)callback {
-    THDbManager *sharedManager = [self sharedManager];
-    __block NSError *err;
-    dispatch_async(sharedManager.thAsynQueue, ^{
-        [sharedManager.fmdbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
-            for (NSArray *args in argsArray) {
-                BOOL success = [db executeUpdate:update withArgumentsInArray:args];
-                if (!success) {
-                    err = db.lastError;
-                    NSLog(@"update batch error: %@", err);
-                    *rollback = YES;
-                    return;
-                }
-            }
-        }];
-        if (callback) {
-            callback(err);
         }
     });
 }

@@ -42,29 +42,45 @@
 #pragma mark - insert -
 
 - (BOOL)insert {
-    NSString *sql = [self.class insertSql];
-    NSArray *args = [self insertArgs];
-    return [THDbManager insert:sql withArgs:args];
+    return [self insertWithOption:THInsertOptionIgnore];
 }
 
 - (void)insertAsync:(THInsertCallBack)callback {
-    NSString *sql = [self.class insertSql];
+    [self insertAsync:callback withOption:THInsertOptionIgnore];
+}
+
++ (BOOL)insertBatch:(NSArray *)models {
+    return [self insertBatch:models withOption:THInsertOptionIgnore];
+}
+
++ (void)insertBatchAsync:(NSArray *)models callback:(THInsertBatchCallBack)callback {
+    [self insertBatchAsync:models callback:callback withOption:THInsertOptionIgnore];
+}
+
+- (BOOL)insertWithOption:(THInsertOption)insertOption {
+    NSString *sql = [self.class insertSqlWithOption:insertOption];
+    NSArray *args = [self insertArgs];
+    return [THDbManager execute:sql withArgs:args];
+}
+
+- (void)insertAsync:(THInsertCallBack)callback withOption:(THInsertOption)insertOption {
+    NSString *sql = [self.class insertSqlWithOption:insertOption];
     NSArray *args = [self insertArgs];
     [THDbManager insertAsync:sql withArgs:args callback:callback];
 }
 
-+ (BOOL)insertBatch:(NSArray *)models {
-    NSString *insert = [self insertSql];
++ (BOOL)insertBatch:(NSArray *)models withOption:(THInsertOption)insertOption {
+    NSString *insert = [self insertSqlWithOption:insertOption];
     NSMutableArray *argsArray = [NSMutableArray array];
     [models enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         NSArray *args = [obj insertArgs];
         [argsArray addObject:args];
     }];
-    return [THDbManager insertBatch:insert withArgsArray:argsArray];
+    return [THDbManager executeBatch:insert withArgsArray:argsArray];
 }
 
-+ (void)insertBatchAsync:(NSArray *)models callback:(THInsertBatchCallBack)callback {
-    NSString *insert = [self insertSql];
++ (void)insertBatchAsync:(NSArray *)models callback:(THInsertBatchCallBack)callback withOption:(THInsertOption)insertOption {
+    NSString *insert = [self insertSqlWithOption:insertOption];
     NSMutableArray *argsArray = [NSMutableArray array];
     [models enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         NSArray *args = [obj insertArgs];
@@ -73,14 +89,19 @@
     [THDbManager insertBatchAsync:insert withArgsArray:argsArray callback:callback];
 }
 
-+ (NSString *)insertSql {
++ (NSString *)insertSqlWithOption:(THInsertOption)insertOption {
     //insert 须忽略rowid 等自增键
     NSDictionary *mapping = [self.class columnPropertyMapping];
     NSArray *allColumns = mapping.allKeys;
     NSArray *allColumnsExceptAutoIncrementKey = [allColumns filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSString *columnName, NSDictionary *bindings) {
         return ![columnName isEqualToString:[self.class autoincrementKey]];
     }]];
-    NSString *sql = [NSString stringWithFormat:@"INSERT OR IGNORE INTO %@ (%@) VALUES (", [self.class tableName], [allColumnsExceptAutoIncrementKey componentsJoinedByString:@", "]];
+    NSString *sql;
+    if (insertOption == THInsertOptionUpdate) {
+        sql = [NSString stringWithFormat:@"REPLACE INTO %@ (%@) VALUES (", [self.class tableName], [allColumnsExceptAutoIncrementKey componentsJoinedByString:@", "]];
+    } else {
+        sql = [NSString stringWithFormat:@"INSERT OR IGNORE INTO %@ (%@) VALUES (", [self.class tableName], [allColumnsExceptAutoIncrementKey componentsJoinedByString:@", "]];
+    }
     for (NSInteger i = 0;i < allColumnsExceptAutoIncrementKey.count;i++) {
         if ( 0 != i ) {
             sql = [sql stringByAppendingString:@", "];
@@ -108,13 +129,13 @@
 - (BOOL)update {
     NSString *sql = [self.class updateSql];
     NSArray *args = [self updateArgs];
-    return [THDbManager update:sql withArgs:args];
+    return [THDbManager execute:sql withArgs:args];
 }
 
 - (void)updateAsync:(THDbCallBack)callback {
     NSString *sql = [self.class updateSql];
     NSArray *args = [self updateArgs];
-    [THDbManager updateAsync:sql withArgs:args callback:callback];
+    [THDbManager executeAsync:sql withArgs:args callback:callback];
 }
 
 + (BOOL)updateBatch:(NSArray *)models {
@@ -124,7 +145,7 @@
         NSArray *args = [obj updateArgs];
         [argsArray addObject:args];
     }];
-    return [THDbManager updateBatch:sql withArgsArray:argsArray];
+    return [THDbManager executeBatch:sql withArgsArray:argsArray];
 }
 
 + (void)updateBatchAsync:(NSArray *)models callback:(THDbCallBack)callback {
@@ -134,7 +155,7 @@
         NSArray *args = [obj updateArgs];
         [argsArray addObject:args];
     }];
-    [THDbManager updateBatchAsync:sql withArgsArray:argsArray callback:callback];
+    [THDbManager executeBatchAsync:sql withArgsArray:argsArray callback:callback];
 }
 
 + (NSString *)updateSql {
@@ -213,7 +234,6 @@
             id model = [[self alloc] init];
             for (int i = 0; i < [result columnCount]; i++) {
                 NSString *columnName = [result columnNameForIndex:i];
-                //进行数据库列名到model属性名之间的映射转换
                 NSString *propertyName;
                 if(mapping) {
                     propertyName = mapping[columnName];
@@ -221,7 +241,7 @@
                 if (![result columnIndexIsNull:i] && propertyName) {
                     [self setPropertyFor:model value:result columnName:columnName propertyName:propertyName];
                 }
-                NSAssert(![propertyName isEqualToString:@"description"], @"description为自带方法，不能对description进行赋值，请使用其他属性名");
+                NSAssert(![propertyName isEqualToString:@"description"], @"can not set description, please use other property name");
             }
             if (!modelArray) {
                 modelArray = [NSMutableArray array];

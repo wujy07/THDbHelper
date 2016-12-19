@@ -12,18 +12,29 @@
 @interface THBaseModel : NSObject
 
 #pragma mark - must override -
+
 + (NSString *)tableName;
 + (NSString *)primaryKeyName;
 + (NSDictionary *)columnPropertyMapping;
+
+#pragma mark - optional override -
+
 + (NSString *)autoincrementKey;
+- (id)primaryKeyValue;
 
 
 #pragma mark - insert -
-//to do insert option:ignore or update when exists
+//default insert option:ignore when exists
 - (BOOL)insert;
 - (void)insertAsync:(THInsertCallBack)callback;
 + (BOOL)insertBatch:(NSArray *)models;
 + (void)insertBatchAsync:(NSArray *)models callback:(THInsertBatchCallBack)callback;
+
+//insert option:update when exists
+- (BOOL)insertWithOption:(THInsertOption)insertOption;
+- (void)insertAsync:(THInsertCallBack)callback withOption:(THInsertOption)insertOption;
++ (BOOL)insertBatch:(NSArray *)models withOption:(THInsertOption)insertOption;
++ (void)insertBatchAsync:(NSArray *)models callback:(THInsertBatchCallBack)callback withOption:(THInsertOption)insertOption;
 
 #pragma mark - update -
 
@@ -33,10 +44,13 @@
 + (void)updateBatchAsync:(NSArray *)models callback:(THDbCallBack)callback;
 
 #pragma mark - delete -
+
 - (BOOL)remove;
 - (void)removeAsync:(THDbCallBack)callback;
 + (BOOL)removeBatch:(NSArray *)models;
 + (void)removeBatchAsync:(NSArray *)models callback:(THDbCallBack)callback;
+
+#pragma mark - query -
 
 + (NSArray *)query:(NSString *)query withArgs:(NSArray *)args;
 
