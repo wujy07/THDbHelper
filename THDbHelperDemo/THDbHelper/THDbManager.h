@@ -22,7 +22,7 @@
 
 //query
 + (void)query:(NSString *)query withArgs:(NSArray *)args resultSetBlock:(void (^)(FMResultSet *result, NSError *err))resultSetBlock;
-
++ (void)queryAsync:(NSString *)query withArgs:(NSArray *)args resultSetBlock:(void(^)(FMResultSet *result, NSError *err))resultSetBlock;
 //utility
 + (BOOL)execute:(NSString *)sql withArgs:(NSArray *)args;
 + (void)executeAsync:(NSString *)sql withArgs:(NSArray *)args callback:(THDbCallBack)callback;

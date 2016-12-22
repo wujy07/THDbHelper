@@ -45,6 +45,7 @@
 }
 
 #pragma mark - test insert -
+
 - (void)testInsertAndQuery {
     THTestModel *testModel = [[THTestModel alloc] init];
     testModel.name = @"test";
@@ -105,6 +106,69 @@
         XCTAssertNil(err);
         [expectation fulfill];
     }];
+    [self waitForExpectationsWithTimeout:1 handler:^(NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"time out:%@", error);
+        }
+    }];
+}
+
+#pragma mark - test query -
+
+- (void)testQuery {
+    NSMutableArray *models = [NSMutableArray array];
+    for(int i = 0;i < 100;i++) {
+        THTestModel *testModel = [[THTestModel alloc] init];
+        testModel.name = [NSString stringWithFormat:@"test%d", i];
+        testModel.age = 17 + i;
+        testModel.birthDate = [NSDate date];
+        [models addObject:testModel];
+    }
+    [THTestModel insertBatch:models];
+    NSArray *queryModels = [THTestModel queryWithWhere:@"age <= ? AND name LIKE 'test1%' " orderBy:@"age desc"
+                                                 limit:5
+                                                offset:1
+                                               columns:@[@"name", @"age"]
+                                                  args:@[@34]];
+    [models removeAllObjects];
+    for (int i = 16;i > 11;i--) {
+        THTestModel *testModel = [[THTestModel alloc] init];
+        testModel.name = [NSString stringWithFormat:@"test%d", i];
+        testModel.age = 17 + i;
+        [models addObject:testModel];
+    }
+    XCTAssertNotNil(queryModels);
+    XCTAssertTrue([queryModels isEqualToArray:models]);
+}
+
+- (void)testQueryAsync {
+    NSMutableArray *models = [NSMutableArray array];
+    for(int i = 0;i < 100;i++) {
+        THTestModel *testModel = [[THTestModel alloc] init];
+        testModel.name = [NSString stringWithFormat:@"test%d", i];
+        testModel.age = 17 + i;
+        testModel.birthDate = [NSDate date];
+        [models addObject:testModel];
+    }
+    [THTestModel insertBatch:models];
+    XCTestExpectation *expectation = [self expectationWithDescription:@"query async"];
+    [THTestModel queryAsync:^(NSArray *result, NSError *err) {
+                                [models removeAllObjects];
+                                for (int i = 16;i > 11;i--) {
+                                    THTestModel *testModel = [[THTestModel alloc] init];
+                                    testModel.name = [NSString stringWithFormat:@"test%d", i];
+                                    testModel.age = 17 + i;
+                                    [models addObject:testModel];
+                                }
+                                XCTAssertNotNil(result);
+                                XCTAssertTrue([result isEqualToArray:models]);
+                                [expectation fulfill];
+                            }
+                      where:@"age <= ? AND name LIKE 'test1%' " orderBy:@"age desc"
+                      limit:5
+                     offset:1
+                    columns:@[@"name", @"age"]
+                       args:@[@34]];
     [self waitForExpectationsWithTimeout:1 handler:^(NSError * _Nullable error) {
         if (error) {
             NSLog(@"time out:%@", error);
@@ -350,6 +414,7 @@
 }
 
 - (void)testQueryPerformance {
+    
     NSMutableArray *models = [NSMutableArray array];
     for(int i = 0;i < 100000;i++) {
         THTestModel *testModel = [[THTestModel alloc] init];
@@ -359,10 +424,15 @@
         [models addObject:testModel];
     }
     [THTestModel insertBatch:models];
+    
     [self measureBlock:^{
-        NSString *sql = @"SELECT * FROM test WHERE name=?";
-        THTestModel *queryModel = [THTestModel query:sql withArgs:@[@"test234"]].firstObject;
-        XCTAssertNotNil(queryModel);
+        NSArray *queryModels = [THTestModel queryWithWhere:@"age <= ? AND name LIKE 'test1%' "
+                                                   orderBy:@"age desc"
+                                                     limit:5
+                                                    offset:1
+                                                   columns:@[@"name", @"age"]
+                                                      args:@[@200]];
+        XCTAssertNotNil(queryModels);
     }];
 }
 

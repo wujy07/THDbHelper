@@ -95,9 +95,9 @@ const char *kAsynQueueUniqId = "kAsynQueueUniqId";
 
 + (void)insertBatchAsync:(NSString *)insert withArgsArray:(NSArray *)argsArray callback:(THInsertBatchCallBack)callback {
     THDbManager *sharedManager = [self sharedManager];
-    __block NSError *err;
-    __block NSMutableArray *ids;
     dispatch_async(sharedManager.thAsynQueue, ^{
+        __block NSError *err;
+        __block NSMutableArray *ids;
         [sharedManager.fmdbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
             for (NSArray *args in argsArray) {
                 BOOL success = [db executeUpdate:insert withArgumentsInArray:args];
@@ -140,7 +140,28 @@ const char *kAsynQueueUniqId = "kAsynQueueUniqId";
         }
         [result close];
     }];
-    
+}
+
++ (void)queryAsync:(NSString *)query withArgs:(NSArray *)args resultSetBlock:(void(^)(FMResultSet *result, NSError *err))resultSetBlock {
+    THDbManager *sharedManager = [self sharedManager];
+    dispatch_async(sharedManager.thAsynQueue, ^{
+        if (!sharedManager.fmdbQueue) {
+            NSError *err;
+            resultSetBlock(nil, err);
+        }
+        [sharedManager.fmdbQueue inDatabase:^(FMDatabase *db) {
+            FMResultSet *result = [db executeQuery:query withArgumentsInArray:args];
+            NSError *err = nil;
+            if (!result) {
+                err = db.lastError;
+            }
+            if (resultSetBlock) {
+                resultSetBlock(result, err);
+            }
+            [result close];
+        }];
+        
+    });
 }
 
 #pragma mark - utility -

@@ -221,7 +221,64 @@
     [THDbManager executeBatchAsync:deleteSQL withArgsArray:argsArray callback:callback];
 }
 
-#pragma mark - Query -
+#pragma mark - query sync -
+
++ (NSArray *)query {
+    return [self queryWithWhere:nil args:nil];
+}
+
++ (NSArray *)queryWithWhere:(NSString *)where args:(NSArray *)args {
+    return [self queryWithWhere:where columns:nil args:args];
+}
+
++ (NSArray *)queryWithWhere:(NSString *)where columns:(NSArray<NSString *> *)columns args:(NSArray *)args {
+    return [self queryWithWhere:where orderBy:nil limit:-1 offset:0 columns:columns args:args];
+}
+
++ (NSArray *)queryWithWhere:(NSString *)where orderBy:(NSString *)orderBy limit:(SInt64)limit offset:(SInt64)offset columns:(NSArray<NSString *> *)columns args:(NSArray *)args {
+    NSString *query = [self querySqlWithWhere:where orderBy:orderBy limit:limit offset:offset columns:columns];
+    return [self query:query withArgs:args];
+}
+
++ (NSString *)querySqlWithWhere:(NSString *)where orderBy:(NSString *)orderBy limit:(SInt64)limit offset:(SInt64)offset columns:(NSArray<NSString *> *)columns {
+    NSMutableString *query;
+    if (columns && columns.count > 0) {
+        NSString *columnsSql = [columns componentsJoinedByString:@", "];
+        query = [NSMutableString stringWithFormat:@"SELECT %@ FROM %@ ", columnsSql, [self tableName]];
+    } else {
+        query = [NSMutableString stringWithFormat:@"SELECT * FROM %@ ", [self tableName]];
+    }
+    if (where) {
+        [query appendString:[NSString stringWithFormat:@"where %@ ", where]];
+    }
+    if (orderBy) {
+        [query appendString:[NSString stringWithFormat:@"order by %@ ", orderBy]];
+    }
+    NSString *limitSql = [NSString stringWithFormat:@"limit %lld offset %lld ", limit, offset];
+    [query appendString:limitSql];
+    return query;
+}
+
+#pragma mark - query async -
+
++ (void)queryAsync:(THDbQueryCallBack)callback {
+    [self queryAsync:callback where:nil args:nil];
+}
+
++ (void)queryAsync:(THDbQueryCallBack)callback where:(NSString *)where args:(NSArray *)args {
+    [self queryAsync:callback where:where columns:nil args:args];
+}
+
++ (void)queryAsync:(THDbQueryCallBack)callback where:(NSString *)where columns:(NSArray<NSString *> *)columns args:(NSArray *)args {
+    [self queryAsync:callback where:where orderBy:nil limit:-1 offset:0 columns:columns args:args];
+}
+
++ (void)queryAsync:(THDbQueryCallBack)callback where:(NSString *)where orderBy:(NSString *)orderBy limit:(SInt64)limit offset:(SInt64)offset columns:(NSArray<NSString *> *)columns args:(NSArray *)args {
+    NSString *query = [self querySqlWithWhere:where orderBy:orderBy limit:limit offset:offset columns:columns];
+    [self queryAsync:query withArgs:args callback:callback];
+}
+
+#pragma mark - query lower method -
 
 + (NSArray *)query:(NSString *)query withArgs:(NSArray *)args {
     __block NSMutableArray *modelArray;
@@ -250,6 +307,36 @@
         }
     }];
     return modelArray;
+}
+
++ (void)queryAsync:(NSString *)query withArgs:(NSArray *)args callback:(THDbQueryCallBack)callback {
+    [THDbManager queryAsync:query withArgs:args resultSetBlock:^(FMResultSet *result, NSError *err) {
+        if (err) {
+            callback(nil, err);
+            return;
+        }
+        NSMutableArray *modelArray;
+        NSDictionary *mapping = [self columnPropertyMapping];
+        while ([result next]) {
+            id model = [[self alloc] init];
+            for (int i = 0; i < [result columnCount]; i++) {
+                NSString *columnName = [result columnNameForIndex:i];
+                NSString *propertyName;
+                if(mapping) {
+                    propertyName = mapping[columnName];
+                }
+                if (![result columnIndexIsNull:i] && propertyName) {
+                    [self setPropertyFor:model value:result columnName:columnName propertyName:propertyName];
+                }
+                NSAssert(![propertyName isEqualToString:@"description"], @"can not set description, please use other property name");
+            }
+            if (!modelArray) {
+                modelArray = [NSMutableArray array];
+            }
+            [modelArray addObject:model];
+        }
+        callback(modelArray, nil);
+    }];
 }
 
 + (void)setPropertyFor:(id)model value:(FMResultSet *)rs columnName:(NSString *)columnName propertyName:(NSString *)propertyName {

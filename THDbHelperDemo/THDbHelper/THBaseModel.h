@@ -51,7 +51,20 @@
 + (void)removeBatchAsync:(NSArray *)models callback:(THDbCallBack)callback;
 
 #pragma mark - query -
+//query sync
++ (NSArray *)query;
++ (NSArray *)queryWithWhere:(NSString *)where args:(NSArray *)args;
++ (NSArray *)queryWithWhere:(NSString *)where columns:(NSArray<NSString *> *)columns args:(NSArray *)args;
++ (NSArray *)queryWithWhere:(NSString *)where orderBy:(NSString *)orderBy limit:(SInt64)limit offset:(SInt64)offset columns:(NSArray<NSString *> *)columns args:(NSArray *)args;
 
+//query async
++ (void)queryAsync:(THDbQueryCallBack)callback;
++ (void)queryAsync:(THDbQueryCallBack)callback where:(NSString *)where args:(NSArray *)args;
++ (void)queryAsync:(THDbQueryCallBack)callback where:(NSString *)where columns:(NSArray<NSString *> *)columns args:(NSArray *)args;
++ (void)queryAsync:(THDbQueryCallBack)callback where:(NSString *)where orderBy:(NSString *)orderBy limit:(SInt64)limit offset:(SInt64)offset columns:(NSArray<NSString *> *)columns args:(NSArray *)args;
+
+//lower method: custom query sql
 + (NSArray *)query:(NSString *)query withArgs:(NSArray *)args;
++ (void)queryAsync:(NSString *)query withArgs:(NSArray *)args callback:(THDbQueryCallBack)callback;
 
 @end
