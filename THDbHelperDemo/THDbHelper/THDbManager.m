@@ -1,6 +1,6 @@
 //
 //  THDbManager.m
-//  THDbOrm
+//  THDbHelper
 //
 //  Created by Junyan Wu on 16/12/15.
 //  Copyright © 2016年 THU. All rights reserved.
@@ -9,7 +9,7 @@
 #import "THDbManager.h"
 #import "FMDB.h"
 
-const char *kAsynQueueUniqId = "kAsynQueueUniqId";
+const char *kAsynQueueUniqId = "com.tsinghua.dbAsynQueueUniqId";
 
 @interface THDbManager ()
 
@@ -123,7 +123,7 @@ const char *kAsynQueueUniqId = "kAsynQueueUniqId";
 #pragma mark - query -
 
 + (void)query:(NSString *)query withArgs:(NSArray *)args resultSetBlock:(void (^)(FMResultSet *result, NSError *err))resultSetBlock {
-    THDbManager *shareManager = [THDbManager sharedManager];
+    THDbManager *shareManager = [self sharedManager];
     if (!shareManager.fmdbQueue) {
         NSError *err;
         resultSetBlock(nil, err);
@@ -167,7 +167,7 @@ const char *kAsynQueueUniqId = "kAsynQueueUniqId";
 #pragma mark - utility -
 
 + (BOOL)execute:(NSString *)sql withArgs:(NSArray *)args {
-    THDbManager *shareManager = [THDbManager sharedManager];
+    THDbManager *shareManager = [self sharedManager];
     __block BOOL success = NO;
     [shareManager.fmdbQueue inDatabase:^(FMDatabase *db) {
         success = [db executeUpdate:sql withArgumentsInArray:args];

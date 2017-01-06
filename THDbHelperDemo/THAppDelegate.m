@@ -1,6 +1,6 @@
 //
 //  THAppDelegate.m
-//  test4
+//  THDbHelperDemo
 //
 //  Created by Junyan Wu on 16/12/6.
 //  Copyright © 2016年 THU. All rights reserved.
