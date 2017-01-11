@@ -23,10 +23,9 @@
     [super setUp];
     NSString *dir = [[self documentsDirectory] stringByAppendingPathComponent:@"test"];
     NSString *fileName = @"test.db";
-    NSString *path = [dir stringByAppendingPathComponent:fileName];
     NSString *createTableSql =
     @"CREATE TABLE IF NOT EXISTS test (name TEXT, age INTEGER, birth_date REAL);";
-    [THDbManager openWithPath:path andTableCreateSQL:createTableSql];
+    [THDbManager openInFolder:dir fileName:fileName andTableCreateSQL:createTableSql];
 }
 
 - (void)tearDown {
@@ -189,6 +188,13 @@
     XCTAssertTrue(success);
     THTestModel *queryModel = [THTestModel query:@"SELECT * FROM test" withArgs:nil].firstObject;
     XCTAssertTrue([queryModel isEqual:testModel]);
+    
+    //where clause and needupdate filter
+    testModel.age = 50;
+    testModel.birthDate = [NSDate dateWithTimeIntervalSinceNow:1000];
+    success  = [testModel updateWithWhere:@"name = ?" args:@[@"test"] needUpdateColumns:@[@"age"]];
+    queryModel = [THTestModel query:@"SELECT * FROM test" withArgs:nil].firstObject;
+    XCTAssertTrue(queryModel.age == 50 && ![queryModel isEqual:testModel]);
 }
 
 - (void)testUpdateAsync {

@@ -51,6 +51,26 @@ const char *kAsynQueueUniqId = "com.tsinghua.dbAsynQueueUniqId";
     [self setupTablesWithSql:sql];
 }
 
++ (void)openInFolder:(NSString *)dir fileName:(NSString *)fileName andTableCreateSQL:(NSString *)sql {
+    NSString *path = [dir stringByAppendingPathComponent:fileName];
+    NSFileManager *manager = [NSFileManager defaultManager];
+    BOOL isExists = [manager fileExistsAtPath:path isDirectory:nil];
+    if (!isExists) {
+        NSError *err;
+        BOOL success = [manager createDirectoryAtPath:dir
+                          withIntermediateDirectories:YES
+                                           attributes:@{}
+                                                error:&err];
+        if (!success) {
+            NSLog(@"cannot create db file at db path! error:%@", err);
+            return;
+        }
+    }
+    THDbManager *shareManager = [self sharedManager];
+    shareManager.fmdbQueue = [FMDatabaseQueue databaseQueueWithPath:path];
+    [self setupTablesWithSql:sql];
+}
+
 + (void)closeDb {
     THDbManager *shareManager = [self sharedManager];
     if (shareManager.fmdbQueue) {

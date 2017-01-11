@@ -127,62 +127,131 @@
 #pragma mark - update -
 
 - (BOOL)update {
-    NSString *sql = [self.class updateSql];
-    NSArray *args = [self updateArgs];
-    return [THDbManager execute:sql withArgs:args];
+    return [self updateWithWhere:nil args:nil];
 }
 
 - (void)updateAsync:(THDbCallBack)callback {
-    NSString *sql = [self.class updateSql];
-    NSArray *args = [self updateArgs];
-    [THDbManager executeAsync:sql withArgs:args callback:callback];
+    [self updateAsync:callback where:nil args:nil];
 }
 
 + (BOOL)updateBatch:(NSArray *)models {
-    NSString *sql = [self.class updateSql];
+    return [self updateBatch:models where:nil args:nil];
+}
+
++ (void)updateBatchAsync:(NSArray *)models callback:(THDbCallBack)callback {
+    [self updateBatchAsync:models callback:callback where:nil args:nil];
+}
+
+//support where clause
+- (BOOL)updateWithWhere:(NSString *)where args:(NSArray *)whereArgs {
+    return [self updateWithWhere:where args:whereArgs needUpdateColumns:nil];
+}
+
+- (void)updateAsync:(THDbCallBack)callback where:(NSString *)where args:(NSArray *)whereArgs {
+    [self updateAsync:callback where:where args:whereArgs needUpdateColumns:nil];
+}
+
++ (BOOL)updateBatch:(NSArray *)models where:(NSString *)where args:(NSArray *)whereArgs {
+    return [self updateBatch:models where:where args:whereArgs needUpdateColumns:nil];
+}
+
++ (void)updateBatchAsync:(NSArray *)models callback:(THDbCallBack)callback where:(NSString *)where args:(NSArray *)whereArgs {
+    [self updateBatchAsync:models callback:callback where:where args:whereArgs needUpdateColumns:nil];
+}
+
+//support need update columns
+- (BOOL)updateWithWhere:(NSString *)where args:(NSArray *)whereArgs needUpdateColumns:(NSArray *)columns {
+    NSString *sql = [self.class updateSqlWithWhere:where needUpdate:columns];
+    NSMutableArray *allArgs = [NSMutableArray arrayWithArray:[self updateArgsWithFilteredColumns:columns]];
+    if (!whereArgs) {
+        id primaryKeyValue = [self primaryKeyValue];
+        [allArgs addObject:primaryKeyValue];
+    } else {
+        [allArgs addObjectsFromArray:whereArgs];
+    }
+    return [THDbManager execute:sql withArgs:allArgs];
+}
+
+- (void)updateAsync:(THDbCallBack)callback where:(NSString *)where args:(NSArray *)whereArgs needUpdateColumns:(NSArray *)columns {
+    NSString *sql = [self.class updateSqlWithWhere:where needUpdate:columns];
+    NSMutableArray *allArgs = [NSMutableArray arrayWithArray:[self updateArgsWithFilteredColumns:columns]];
+    if (!whereArgs) {
+        id primaryKeyValue = [self primaryKeyValue];
+        [allArgs addObject:primaryKeyValue];
+    } else {
+        [allArgs addObjectsFromArray:whereArgs];
+    }
+    [THDbManager executeAsync:sql withArgs:allArgs callback:callback];;
+}
+
++ (BOOL)updateBatch:(NSArray *)models where:(NSString *)where args:(NSArray *)whereArgs needUpdateColumns:(NSArray *)columns {
+    NSString *sql = [self.class updateSqlWithWhere:where needUpdate:columns];
     NSMutableArray *argsArray = [NSMutableArray array];
     [models enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSArray *args = [obj updateArgs];
-        [argsArray addObject:args];
+        NSMutableArray *allArgs = [NSMutableArray arrayWithArray:[obj updateArgsWithFilteredColumns:columns]];
+        if (whereArgs) {
+             [allArgs addObjectsFromArray:whereArgs];
+        } else {
+            id primaryKeyValue = [obj primaryKeyValue];
+            [allArgs addObject:primaryKeyValue];
+        }
+        [argsArray addObject:allArgs];
     }];
     return [THDbManager executeBatch:sql withArgsArray:argsArray];
 }
 
-+ (void)updateBatchAsync:(NSArray *)models callback:(THDbCallBack)callback {
-    NSString *sql = [self.class updateSql];
++ (void)updateBatchAsync:(NSArray *)models callback:(THDbCallBack)callback where:(NSString *)where args:(NSArray *)whereArgs needUpdateColumns:(NSArray *)columns {
+    NSString *sql = [self.class updateSqlWithWhere:where needUpdate:columns];
     NSMutableArray *argsArray = [NSMutableArray array];
     [models enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSArray *args = [obj updateArgs];
-        [argsArray addObject:args];
+        NSMutableArray *allArgs = [NSMutableArray arrayWithArray:[obj updateArgsWithFilteredColumns:columns]];
+        if (whereArgs) {
+            [allArgs addObjectsFromArray:whereArgs];
+        } else {
+            id primaryKeyValue = [obj primaryKeyValue];
+            [allArgs addObject:primaryKeyValue];
+        }
+        [argsArray addObject:allArgs];
     }];
     [THDbManager executeBatchAsync:sql withArgsArray:argsArray callback:callback];
 }
 
-+ (NSString *)updateSql {
++ (NSString *)updateSqlWithWhere:(NSString *)where needUpdate:(NSArray *)needUpdateColumns {
     NSString *sql = [NSString stringWithFormat:@"UPDATE %@ SET ", [self tableName]];
-    NSDictionary *mapping = [self columnPropertyMapping];
-    NSArray *columnsExceptPrimaryKey = [mapping.allKeys filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSString *columnName, NSDictionary *bindings) {
-        return ![columnName isEqualToString:[self primaryKeyName]];
-    }]];
-    sql = [sql stringByAppendingString:[columnsExceptPrimaryKey componentsJoinedByString:@"=?, "]];
-    sql = [sql stringByAppendingFormat:@"=? where %@=?", [self primaryKeyName]];
+    needUpdateColumns = [self checkedNeedUpdateColumns:needUpdateColumns];
+    sql = [sql stringByAppendingString:[needUpdateColumns componentsJoinedByString:@"=?, "]];
+    if (!where) {
+        where = [NSString stringWithFormat:@"%@ = ?", [self primaryKeyName]];
+    }
+    sql = [sql stringByAppendingFormat:@"=? where %@", where];
     return sql;
 }
 
-- (NSArray *)updateArgs {
+- (NSArray *)updateArgsWithFilteredColumns:(NSArray *)needUpdateColumns {
     NSDictionary *mapping = [self.class columnPropertyMapping];
-    NSArray *columnsExceptPrimaryKey = [mapping.allKeys filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSString *columnName, NSDictionary *bindings) {
-        return ![columnName isEqualToString:[self.class primaryKeyName]];
-    }]];
+    needUpdateColumns = [self.class checkedNeedUpdateColumns:needUpdateColumns];
     NSMutableArray *args = [NSMutableArray array];
-    for (NSInteger i = 0;i < columnsExceptPrimaryKey.count;i++) {
-        NSString * columnName = [columnsExceptPrimaryKey objectAtIndex:i];
+    for (NSInteger i = 0;i < needUpdateColumns.count;i++) {
+        NSString * columnName = [needUpdateColumns objectAtIndex:i];
         id columnValue = [self valueForKey:mapping[columnName]];
         [args addObject:[self.class objOrNull:columnValue]];
     }
-    id primaryKeyValue = [self primaryKeyValue];
-    [args addObject:primaryKeyValue];
     return args;
+}
+
++ (NSArray *)checkedNeedUpdateColumns:(NSArray *)needUpdateColumns {
+    NSDictionary *mapping = [self.class columnPropertyMapping];
+    if (needUpdateColumns) {
+        needUpdateColumns = [needUpdateColumns filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSString *columnName, NSDictionary *bindings) {
+            return ![columnName isEqualToString:[self.class primaryKeyName]] && [mapping.allKeys containsObject:columnName];
+        }]];
+    } else {
+        needUpdateColumns = [mapping.allKeys filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSString *columnName, NSDictionary *bindings) {
+            return ![columnName isEqualToString:[self.class primaryKeyName]];
+        }]];
+        
+    }
+    return needUpdateColumns;
 }
 
 #pragma mark - delete -

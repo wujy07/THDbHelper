@@ -43,6 +43,18 @@
 + (BOOL)updateBatch:(NSArray *)models;
 + (void)updateBatchAsync:(NSArray *)models callback:(THDbCallBack)callback;
 
+//support where clause 
+- (BOOL)updateWithWhere:(NSString *)where args:(NSArray *)whereArgs;
+- (void)updateAsync:(THDbCallBack)callback where:(NSString *)where args:(NSArray *)whereArgs;
++ (BOOL)updateBatch:(NSArray *)models where:(NSString *)where args:(NSArray *)whereArgs;
++ (void)updateBatchAsync:(NSArray *)models callback:(THDbCallBack)callback where:(NSString *)where args:(NSArray *)whereArgs;
+
+//support only filter needupdate columns
+- (BOOL)updateWithWhere:(NSString *)where args:(NSArray *)whereArgs needUpdateColumns:(NSArray *)columns;
+- (void)updateAsync:(THDbCallBack)callback where:(NSString *)where args:(NSArray *)whereArgs needUpdateColumns:(NSArray *)columns;
++ (BOOL)updateBatch:(NSArray *)models where:(NSString *)where args:(NSArray *)whereArgs needUpdateColumns:(NSArray *)columns;
++ (void)updateBatchAsync:(NSArray *)models callback:(THDbCallBack)callback where:(NSString *)where args:(NSArray *)whereArgs needUpdateColumns:(NSArray *)columns;
+
 #pragma mark - delete -
 
 - (BOOL)remove;

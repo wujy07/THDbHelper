@@ -14,6 +14,7 @@
 @interface THDbManager : NSObject
 
 + (void)openWithPath:(NSString *)path andTableCreateSQL:(NSString *)sql;
++ (void)openInFolder:(NSString *)dir fileName:(NSString *)fileName andTableCreateSQL:(NSString *)sql;
 + (void)closeDb;
 
 //insert
